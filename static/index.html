@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AluuGPT | Enterprise AI</title>
+    <link rel="stylesheet" href="/static/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex/dist/contrib/auto-render.min.js"></script>
+</head>
+<body>
+    <aside class="sidebar">
+        <button class="new-chat-btn" onclick="createNewChat()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+            New Chat
+        </button>
+        <div class="history-list" id="historyList">
+            <!-- Chat history items will appear here -->
+        </div>
+        <div class="theme-switch" id="themeToggle">
+            Switch to Light Mode
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <header class="chat-header">
+            <div class="model-info">
+                <strong>AluuGPT</strong> <span style="opacity: 0.5; font-size: 0.8rem; margin-left: 0.5rem;">Production Alpha</span>
+            </div>
+        </header>
+
+        <section class="chat-messages" id="chatMessages">
+            <div class="message-wrapper">
+                <div class="message ai">
+                    Hello. How can I assist your workflow today?
+                </div>
+            </div>
+        </section>
+
+        <section class="input-container">
+            <div class="input-box">
+                <textarea id="userInput" placeholder="Ask anything... (Use tokens for specific modes)" rows="1" oninput="autoResize(this)"></textarea>
+                <div class="controls">
+                    <div class="token-group">
+                        <button class="token-btn" data-token="<|think|>" onclick="toggleToken(this)">Think</button>
+                        <button class="token-btn" data-token="<|fast|>" onclick="toggleToken(this)">Fast</button>
+                        <button class="token-btn" data-token="[animation]" onclick="toggleToken(this)">Animation</button>
+                    </div>
+                    <button class="send-btn" id="sendBtn">
+                        Send
+                    </button>
+                </div>
+            </div>
+            <p style="text-align: center; font-size: 0.7rem; opacity: 0.4; margin-top: 1rem;">
+                AluuGPT may produce inaccurate info. Verify important outputs.
+            </p>
+        </section>
+    </main>
+
+    <script src="/static/app.js"></script>
+</body>
+</html>

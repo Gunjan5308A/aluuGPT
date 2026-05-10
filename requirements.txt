@@ -1,0 +1,29 @@
+# Web Framework
+fastapi>=0.104.1
+uvicorn>=0.24.0
+websockets>=12.0
+python-multipart>=0.0.6
+
+# LLM APIs
+openai>=1.3.0
+requests>=2.31.0
+
+# Chat History & Embeddings
+sqlalchemy>=2.0.23
+sentence-transformers>=2.2.2
+# chromadb can be tricky, using a flexible version
+chromadb>=0.4.15
+
+# Animation & Visualization
+# pygame-ce is usually better for modern python versions
+pygame-ce>=2.4.0
+numpy>=1.24.3
+scipy>=1.11.4
+
+# Frontend
+jinja2>=3.1.2
+
+# Environment & Config
+python-dotenv>=1.0.0
+pydantic>=2.5.0
+pydantic-settings>=2.1.0
