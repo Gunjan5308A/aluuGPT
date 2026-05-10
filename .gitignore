@@ -8,3 +8,6 @@ venv
 *.log
 .data
 .venv
+*.mp4
+scripts/
+fallback_logs/
