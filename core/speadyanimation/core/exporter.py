@@ -14,10 +14,15 @@ class Exporter:
         self.process = None
         self.frame_count = 0
 
-    def start(self):
+        # Use local ffmpeg if available (essential for Vercel)
+        ffmpeg_bin = os.path.join(os.getcwd(), "bin", "ffmpeg")
+        if not os.path.exists(ffmpeg_bin):
+            ffmpeg_bin = "ffmpeg" # Fallback to system path
+
         command = [
-            'ffmpeg',
+            ffmpeg_bin,
             '-y',
+
             '-f', 'rawvideo',
             '-vcodec', 'rawvideo',
             '-s', f'{self.width}x{self.height}',
