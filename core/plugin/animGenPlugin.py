@@ -82,11 +82,14 @@ class AnimationPlugin:
         csv_line = csv_line.strip().replace('"', '').replace('`', '')
         
         # Log for user inspection
-        log_path = os.path.join(PROJECT_ROOT, "data", "fallback_logs", f"log_{script_id}.txt")
-        os.makedirs(os.path.dirname(log_path), exist_ok=True)
+        log_dir = "/tmp/logs" if IS_VERCEL else os.path.join(PROJECT_ROOT, "data", "fallback_logs")
+        os.makedirs(log_dir, exist_ok=True)
+        log_path = os.path.join(log_dir, f"log_{script_id}.txt")
+        
         with open(log_path, "w") as f:
             f.write(f"PROMPT: {prompt}\n")
             f.write(f"GENERATED CSV: {csv_line}\n")
+
             
         try:
             return next(csv.reader([csv_line]))

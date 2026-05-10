@@ -32,9 +32,10 @@ class Settings(BaseSettings):
     
     # Chat history
     enable_chat_history: bool = True
-    embedding_model: str = "all-MiniLM-L6-v2"
-    database_path: str = "./data/chat_history.db"
+    embedding_model: str = "text-embedding-3-small"
+    database_path: str = "/tmp/chat_history.db" if os.environ.get("VERCEL") == "1" else "./data/chat_history.db"
     max_context_tokens: int = 2000
+
     
     # UI settings
     default_theme: str = "dark"

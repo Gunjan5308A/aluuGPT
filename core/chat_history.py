@@ -9,8 +9,8 @@ from typing import List, Dict, Optional
 from sqlalchemy import create_engine, Column, String, DateTime, Float, Integer, Text
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
-from sentence_transformers import SentenceTransformer
 from core.config import settings
+
 
 Base = declarative_base()
 
@@ -40,11 +40,9 @@ class ChatHistoryManager:
         Base.metadata.create_all(self.engine)
         self.Session = sessionmaker(bind=self.engine)
 
-        # Load embedding model
-        if settings.enable_chat_history:
-            self.embedding_model = SentenceTransformer(settings.embedding_model)
-        else:
-            self.embedding_model = None
+        # Load embedding model (Disabled local model for Vercel compatibility)
+        self.embedding_model = None
+
 
     def add_message(
         self,
