@@ -19,12 +19,13 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 app = FastAPI()
 
 # Setup animation directory (use /tmp on Vercel)
-IS_VERCEL = os.environ.get("VERCEL") == "1"
-if IS_VERCEL:
+IS_VERCEL = os.environ.get("VERCEL") == "1" or os.environ.get("VERCEL_REGION") is not None
+if IS_VERCEL or os.path.exists("/var/task"):
     ANIMATION_DIR = "/tmp/animations"
     os.makedirs(ANIMATION_DIR, exist_ok=True)
 else:
     ANIMATION_DIR = os.path.join(BASE_DIR, "static/animations")
+
 
 
 # CORS configuration for frontend

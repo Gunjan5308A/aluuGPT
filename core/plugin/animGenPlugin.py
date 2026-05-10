@@ -10,7 +10,8 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # --- Configuration ---
-IS_VERCEL = os.environ.get("VERCEL") == "1"
+IS_VERCEL = os.environ.get("VERCEL") == "1" or os.environ.get("VERCEL_REGION") is not None
+
 PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 PLUGIN_DIR = os.path.dirname(__file__)
 LIB_DIR = os.path.abspath(os.path.join(PLUGIN_DIR, "..", "speadyanimation"))
@@ -82,7 +83,12 @@ class AnimationPlugin:
         csv_line = csv_line.strip().replace('"', '').replace('`', '')
         
         # Log for user inspection
-        log_dir = "/tmp/logs" if IS_VERCEL else os.path.join(PROJECT_ROOT, "data", "fallback_logs")
+        # Always prioritize /tmp in production environments
+        if IS_VERCEL or os.path.exists("/var/task"):
+            log_dir = "/tmp/logs"
+        else:
+            log_dir = os.path.join(PROJECT_ROOT, "data", "fallback_logs")
+
         os.makedirs(log_dir, exist_ok=True)
         log_path = os.path.join(log_dir, f"log_{script_id}.txt")
         
