@@ -11,3 +11,4 @@ venv
 *.mp4
 scripts/
 fallback_logs/
+vercel.json
