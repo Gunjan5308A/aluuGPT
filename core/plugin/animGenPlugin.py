@@ -126,14 +126,17 @@ class AnimationPlugin:
             
             env = os.environ.copy()
             env["SDL_VIDEODRIVER"] = "dummy"
+            # Crucial: inherit the full path for Vercel
+            env["PYTHONPATH"] = os.pathsep.join(sys.path)
             
             proc = await asyncio.create_subprocess_exec(
                 sys.executable, script_path,
                 stdout=asyncio.subprocess.PIPE,
                 stderr=asyncio.subprocess.PIPE,
-                cwd=LIB_DIR,
+                cwd=PROJECT_ROOT, # Run from project root
                 env=env
             )
+
             _, stderr = await proc.communicate()
             
             if proc.returncode == 0:
@@ -145,28 +148,21 @@ class AnimationPlugin:
         data = await cls._get_fallback_data(prompt, script_id)
         explanation, equation, g_type, g_points = (data + ["", "", "none", ""])[:4]
         
-        renderer_path = os.path.join(PLUGIN_DIR, "fallback_renderer.py")
-        cmd = [
-            sys.executable, renderer_path,
-            "--explanation", explanation,
-            "--equation", equation,
-            "--graph_type", g_type,
-            "--graph_points", g_points,
-            "--output", output_path
-        ]
-        
-        proc = await asyncio.create_subprocess_exec(
-            *cmd,
-            stdout=asyncio.subprocess.PIPE,
-            stderr=asyncio.subprocess.PIPE,
-            cwd=LIB_DIR,
-            env=os.environ.copy() | {"SDL_VIDEODRIVER": "dummy"}
-        )
-        _, stderr = await proc.communicate()
-        
-        if proc.returncode == 0:
-            return output_path
-        raise RuntimeError(f"Animation generation failed completely: {stderr.decode()}")
+        try:
+            from core.plugin.fallback_renderer import FallbackScene
+            os.environ["SDL_VIDEODRIVER"] = "dummy"
+            
+            # Run in a separate thread if it's blocking, but speady is relatively fast for fallback
+            scene = FallbackScene(explanation, equation, g_type, g_points, output_path)
+            scene.render(preview=False, export=True, filename=output_path)
+            
+            if os.path.exists(output_path):
+                return output_path
+        except Exception as e:
+            print(f"Fallback render error: {e}")
+            
+        raise RuntimeError(f"Animation generation failed completely.")
+
 
 async def generate_animation(prompt: str, user_id: str = None):
     """Bridge for the main application."""
