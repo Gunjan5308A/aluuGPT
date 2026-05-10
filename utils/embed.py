@@ -24,11 +24,18 @@ def _embed_text(text: str) -> np.ndarray:
 
 
 # Database setup
-db_path = os.getenv("DATABASE_PATH", "./data/chat_history.db")
+# Use /tmp on Vercel for writable database
+IS_VERCEL = os.environ.get("VERCEL") == "1"
+if IS_VERCEL:
+    db_path = "/tmp/chat_history.db"
+else:
+    db_path = os.getenv("DATABASE_PATH", "./data/chat_history.db")
+
 os.makedirs(os.path.dirname(db_path), exist_ok=True)
 engine = create_engine(f"sqlite:///{db_path}")
 Base = declarative_base()
 Session = sessionmaker(bind=engine)
+
 
 class Message(Base):
     __tablename__ = "messages"
