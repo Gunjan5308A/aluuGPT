@@ -43,7 +43,11 @@ async def run_animation_script(prompt: str) -> str:
             stderr=asyncio.subprocess.PIPE,
             env=env
         )
-        await proc.communicate()
+        stdout, stderr = await proc.communicate()
+        if stdout:
+            print(f"Script Output: {stdout.decode()}")
+        if stderr:
+            print(f"Script Error: {stderr.decode()}")
         
         if os.path.exists(output_path):
             # Return the URL relative to static

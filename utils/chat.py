@@ -48,7 +48,7 @@ async def process_user_message(message: str, session_id: str = "default") -> str
         response = client.chat.completions.create(
             model=model,
             messages=msgs,
-            temperature=0.7,
+            temperature=0.2,
             max_tokens=1024
         ).choices[0].message.content
     except Exception as e:
