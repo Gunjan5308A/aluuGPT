@@ -10,7 +10,7 @@ sys.path.insert(0, LIB_DIR)
 from speadyanimation import *
 
 # 3B1B Style Constants
-BG_COLOR = "#1C1C1C"
+BG_COLOR = "#111111"
 BLUE_P = Color.from_hex("#58C4DD")
 GREEN_P = Color.from_hex("#83C167")
 YELLOW_P = Color.from_hex("#FFFF00")

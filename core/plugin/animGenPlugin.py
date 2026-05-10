@@ -10,11 +10,18 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # --- Configuration ---
+IS_VERCEL = os.environ.get("VERCEL") == "1"
 PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 PLUGIN_DIR = os.path.dirname(__file__)
-SCRIPTS_DIR = os.path.join(PLUGIN_DIR, "scripts")
 LIB_DIR = os.path.abspath(os.path.join(PLUGIN_DIR, "..", "speadyanimation"))
-ANIMATION_OUTPUT_DIR = os.path.join(PROJECT_ROOT, "static", "animations")
+
+if IS_VERCEL:
+    SCRIPTS_DIR = "/tmp/scripts"
+    ANIMATION_OUTPUT_DIR = "/tmp/animations"
+else:
+    SCRIPTS_DIR = os.path.join(PLUGIN_DIR, "scripts")
+    ANIMATION_OUTPUT_DIR = os.path.join(PROJECT_ROOT, "static", "animations")
+
 
 os.makedirs(SCRIPTS_DIR, exist_ok=True)
 os.makedirs(ANIMATION_OUTPUT_DIR, exist_ok=True)

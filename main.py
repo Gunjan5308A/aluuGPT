@@ -9,7 +9,19 @@ from core.plugin.animGenPlugin import generate_animation
 
 load_dotenv()
 
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+
 app = FastAPI()
+
+# Setup animation directory (use /tmp on Vercel)
+IS_VERCEL = os.environ.get("VERCEL") == "1"
+if IS_VERCEL:
+    ANIMATION_DIR = "/tmp/animations"
+    os.makedirs(ANIMATION_DIR, exist_ok=True)
+else:
+    ANIMATION_DIR = os.path.join(BASE_DIR, "static/animations")
+
 
 # CORS configuration for frontend
 app.add_middleware(
@@ -51,6 +63,12 @@ from fastapi.responses import FileResponse
 
 @app.get("/")
 async def read_index():
-    return FileResponse('static/index.html')
+    return FileResponse(os.path.join(BASE_DIR, 'static/index.html'))
 
-app.mount("/static", StaticFiles(directory="static"), name="static")
+app.mount("/static", StaticFiles(directory=os.path.join(BASE_DIR, "static")), name="static")
+
+# Special mount for animations if on Vercel (since static/animations is read-only)
+if IS_VERCEL:
+    app.mount("/static/animations", StaticFiles(directory=ANIMATION_DIR), name="animations_tmp")
+
+
