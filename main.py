@@ -1,74 +1,41 @@
-from fastapi import FastAPI, HTTPException
-from fastapi.responses import JSONResponse
-from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel
 import os
-from dotenv import load_dotenv
+from fastapi import FastAPI, Request
+from fastapi.responses import FileResponse, JSONResponse
+from fastapi.staticfiles import StaticFiles
+from pydantic import BaseModel
 from utils.chat import process_user_message
-from core.plugin.animGenPlugin import generate_animation
+from utils.animation import run_animation_script, ANIMATION_OUTPUT_DIR
 
-load_dotenv()
+app = FastAPI(title="AluuGPT")
 
+# Statics
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+app.mount("/static", StaticFiles(directory=os.path.join(BASE_DIR, "static")), name="static")
 
-
-app = FastAPI()
-
-# Setup animation directory (use /tmp on Vercel)
+# Vercel /tmp mount for animations
 IS_VERCEL = os.environ.get("VERCEL") == "1"
 if IS_VERCEL:
-    ANIMATION_DIR = "/tmp/animations"
-    os.makedirs(ANIMATION_DIR, exist_ok=True)
-else:
-    ANIMATION_DIR = os.path.join(BASE_DIR, "static/animations")
-
-
-# CORS configuration for frontend
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
+    app.mount("/static/animations", StaticFiles(directory="/tmp/animations"), name="animations_tmp")
 
 class ChatRequest(BaseModel):
     message: str
-    user_id: str | None = None
-
-@app.post("/chat")
-async def chat_endpoint(request: ChatRequest):
-    try:
-        response = await process_user_message(request.message, request.user_id)
-        return JSONResponse(content={"response": response})
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
-
-class AnimationRequest(BaseModel):
-    prompt: str
-    user_id: str | None = None
-
-@app.post("/generate_animation")
-async def generate_animation_endpoint(request: AnimationRequest):
-    try:
-        video_path = await generate_animation(request.prompt, request.user_id)
-        video_url = f"/static/animations/{os.path.basename(video_path)}"
-        return JSONResponse(content={"video_url": video_url})
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
-
-# Serve static assets (frontend)
-from fastapi.staticfiles import StaticFiles
-from fastapi.responses import FileResponse
 
 @app.get("/")
-async def read_index():
-    return FileResponse(os.path.join(BASE_DIR, 'static/index.html'))
+async def index():
+    return FileResponse(os.path.join(BASE_DIR, "static/index.html"))
 
-app.mount("/static", StaticFiles(directory=os.path.join(BASE_DIR, "static")), name="static")
+@app.post("/chat")
+async def chat(req: ChatRequest):
+    response = await process_user_message(req.message)
+    return {"response": response}
 
-# Special mount for animations if on Vercel (since static/animations is read-only)
-if IS_VERCEL:
-    app.mount("/static/animations", StaticFiles(directory=ANIMATION_DIR), name="animations_tmp")
+@app.post("/generate_animation")
+async def animation(req: ChatRequest):
+    video_url = await run_animation_script(req.message)
+    if video_url:
+        return {"video_url": video_url}
+    return JSONResponse(status_code=500, content={"detail": "Animation failed"})
 
-
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=int(os.environ.get("PORT", 8000)))
