@@ -9,7 +9,11 @@ from core.plugin.animGenPlugin import generate_animation
 
 load_dotenv()
 
+# Port configuration for Cloud Run
+UI_PORT = int(os.getenv("PORT", 8080))
+
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
 
 
 app = FastAPI()

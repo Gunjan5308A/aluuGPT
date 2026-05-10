@@ -1,14 +1,27 @@
-from sentence_transformers import SentenceTransformer
+from openai import OpenAI
 from sqlalchemy import create_engine, Column, Integer, String, LargeBinary, Text, select, desc
 from sqlalchemy.orm import declarative_base, sessionmaker
 import os
 import numpy as np
 from typing import List
 
-# Load embedding model
-# Note: SentenceTransformer runs locally. Use a local model like 'all-MiniLM-L6-v2'.
-embedding_model_name = os.getenv("EMBEDDING_MODEL", "all-MiniLM-L6-v2")
-embedder = SentenceTransformer(embedding_model_name)
+# Setup OpenAI client for embeddings
+client = OpenAI(api_key=os.getenv("API_KEYS").split(',')[0] if os.getenv("API_KEYS") else None)
+embedding_model_name = os.getenv("EMBEDDING_MODEL", "text-embedding-3-small")
+
+def _embed_text(text: str) -> np.ndarray:
+    """Get embeddings via OpenAI API instead of local model."""
+    try:
+        response = client.embeddings.create(
+            input=[text.replace("\n", " ")],
+            model=embedding_model_name
+        )
+        return np.array(response.data[0].embedding, dtype=np.float32)
+    except Exception as e:
+        print(f"Embedding error: {e}")
+        # Fallback to zero vector if API fails
+        return np.zeros(1536, dtype=np.float32) # Default size for text-embedding-3-small
+
 
 # Database setup
 db_path = os.getenv("DATABASE_PATH", "./data/chat_history.db")
@@ -27,8 +40,7 @@ class Message(Base):
 
 Base.metadata.create_all(engine)
 
-def _embed_text(text: str) -> np.ndarray:
-    return embedder.encode(text, convert_to_numpy=True)
+
 
 def add_message(user_id: str | None, role: str, content: str):
     emb = _embed_text(content)

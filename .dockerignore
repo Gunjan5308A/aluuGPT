@@ -1,0 +1,17 @@
+.venv/
+venv/
+__pycache__/
+*.pyc
+*.log
+.git/
+.gitignore
+.vercel/
+vercel.json
+api/
+.env
+.env.bak
+*.mp4
+data/*.db
+data/fallback_logs/*
+scripts/
+node_modules/
