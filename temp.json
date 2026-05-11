@@ -1,0 +1,363 @@
+{
+    "video": {
+        "title": "How Neural Networks Learn",
+        "duration": 30,
+        "fps": 60,
+        "resolution": {
+            "width": 1920,
+            "height": 1080
+        },
+        "theme": {
+            "background_color": "#0b0f14",
+            "primary_color": "#00d9ff",
+            "secondary_color": "#ffffff",
+            "accent_color": "#ffcc00",
+            "font": "Inter"
+        },
+        "audio": {
+            "background_music": "bg_music.mp3",
+            "music_volume": 0.25
+        },
+        "scenes": [
+            {
+                "id": "scene_1_hook",
+                "start": 0,
+                "duration": 5,
+                "background": {
+                    "type": "solid",
+                    "color": "#0b0f14"
+                },
+                "camera": {
+                    "zoom": 1.1,
+                    "movement": "slow_push"
+                },
+                "objects": [
+                    {
+                        "id": "title_main",
+                        "type": "text",
+                        "content": "How Neural Networks Learn",
+                        "position": {
+                            "x": 960,
+                            "y": 420
+                        },
+                        "style": {
+                            "font_size": 72,
+                            "color": "#ffffff",
+                            "font": "Inter",
+                            "align": "center"
+                        },
+                        "animations": [
+                            {
+                                "type": "fade_in",
+                                "start": 0,
+                                "duration": 1.5
+                            },
+                            {
+                                "type": "scale",
+                                "start": 1.5,
+                                "duration": 2,
+                                "to": 1.08
+                            }
+                        ]
+                    },
+                    {
+                        "id": "subtitle",
+                        "type": "text",
+                        "content": "From guesses to intelligence",
+                        "position": {
+                            "x": 960,
+                            "y": 560
+                        },
+                        "style": {
+                            "font_size": 36,
+                            "color": "#00d9ff"
+                        },
+                        "animations": [
+                            {
+                                "type": "fade_in",
+                                "start": 1,
+                                "duration": 1
+                            }
+                        ]
+                    }
+                ],
+                "transition_out": {
+                    "type": "flash",
+                    "duration": 0.5
+                }
+            },
+            {
+                "id": "scene_2_problem",
+                "start": 5,
+                "duration": 5,
+                "background": {
+                    "type": "solid",
+                    "color": "#10151c"
+                },
+                "camera": {
+                    "movement": "pan_left"
+                },
+                "objects": [
+                    {
+                        "id": "question",
+                        "type": "text",
+                        "content": "How does AI improve its answers?",
+                        "position": {
+                            "x": 960,
+                            "y": 180
+                        },
+                        "style": {
+                            "font_size": 52,
+                            "color": "#ffffff"
+                        },
+                        "animations": [
+                            {
+                                "type": "slide_up",
+                                "start": 0,
+                                "duration": 1
+                            }
+                        ]
+                    },
+                    {
+                        "id": "network_diagram",
+                        "type": "diagram",
+                        "diagram_type": "neural_network",
+                        "position": {
+                            "x": 960,
+                            "y": 580
+                        },
+                        "style": {
+                            "node_color": "#00d9ff",
+                            "edge_color": "#ffffff"
+                        },
+                        "animations": [
+                            {
+                                "type": "draw",
+                                "start": 1,
+                                "duration": 2.5
+                            }
+                        ]
+                    }
+                ],
+                "transition_out": {
+                    "type": "fade",
+                    "duration": 0.5
+                }
+            },
+            {
+                "id": "scene_3_explanation",
+                "start": 10,
+                "duration": 12,
+                "background": {
+                    "type": "gradient",
+                    "colors": [
+                        "#0b0f14",
+                        "#121a24"
+                    ]
+                },
+                "camera": {
+                    "zoom": 1.2,
+                    "movement": "smart_follow"
+                },
+                "objects": [
+                    {
+                        "id": "input_nodes",
+                        "type": "diagram",
+                        "diagram_type": "input_layer",
+                        "position": {
+                            "x": 450,
+                            "y": 540
+                        },
+                        "animations": [
+                            {
+                                "type": "fade_in",
+                                "start": 0,
+                                "duration": 1
+                            }
+                        ]
+                    },
+                    {
+                        "id": "hidden_nodes",
+                        "type": "diagram",
+                        "diagram_type": "hidden_layer",
+                        "position": {
+                            "x": 960,
+                            "y": 540
+                        },
+                        "animations": [
+                            {
+                                "type": "fade_in",
+                                "start": 1,
+                                "duration": 1
+                            }
+                        ]
+                    },
+                    {
+                        "id": "output_nodes",
+                        "type": "diagram",
+                        "diagram_type": "output_layer",
+                        "position": {
+                            "x": 1470,
+                            "y": 540
+                        },
+                        "animations": [
+                            {
+                                "type": "fade_in",
+                                "start": 2,
+                                "duration": 1
+                            }
+                        ]
+                    },
+                    {
+                        "id": "signal_flow",
+                        "type": "arrow_group",
+                        "animations": [
+                            {
+                                "type": "flow",
+                                "start": 3,
+                                "duration": 4
+                            }
+                        ]
+                    },
+                    {
+                        "id": "explanation_text",
+                        "type": "text",
+                        "content": "Weights adjust after every mistake.",
+                        "position": {
+                            "x": 960,
+                            "y": 180
+                        },
+                        "style": {
+                            "font_size": 42,
+                            "color": "#ffcc00"
+                        },
+                        "animations": [
+                            {
+                                "type": "fade_in",
+                                "start": 4,
+                                "duration": 1
+                            }
+                        ]
+                    }
+                ],
+                "transition_out": {
+                    "type": "slide_left",
+                    "duration": 0.7
+                }
+            },
+            {
+                "id": "scene_4_example",
+                "start": 22,
+                "duration": 5,
+                "background": {
+                    "type": "solid",
+                    "color": "#0d1117"
+                },
+                "objects": [
+                    {
+                        "id": "cat_image",
+                        "type": "image",
+                        "source": "cat.png",
+                        "position": {
+                            "x": 600,
+                            "y": 540
+                        },
+                        "size": {
+                            "width": 500,
+                            "height": 500
+                        },
+                        "animations": [
+                            {
+                                "type": "slide_right",
+                                "start": 0,
+                                "duration": 1
+                            }
+                        ]
+                    },
+                    {
+                        "id": "prediction_text",
+                        "type": "text",
+                        "content": "Prediction: CAT",
+                        "position": {
+                            "x": 1350,
+                            "y": 540
+                        },
+                        "style": {
+                            "font_size": 58,
+                            "color": "#00ff99"
+                        },
+                        "animations": [
+                            {
+                                "type": "fade_in",
+                                "start": 1,
+                                "duration": 1
+                            }
+                        ]
+                    }
+                ],
+                "transition_out": {
+                    "type": "fade",
+                    "duration": 0.5
+                }
+            },
+            {
+                "id": "scene_5_ending",
+                "start": 27,
+                "duration": 3,
+                "background": {
+                    "type": "solid",
+                    "color": "#000000"
+                },
+                "camera": {
+                    "zoom": 1.3
+                },
+                "objects": [
+                    {
+                        "id": "ending_text",
+                        "type": "text",
+                        "content": "And that’s how AI learns.",
+                        "position": {
+                            "x": 960,
+                            "y": 500
+                        },
+                        "style": {
+                            "font_size": 64,
+                            "color": "#ffffff"
+                        },
+                        "animations": [
+                            {
+                                "type": "fade_in",
+                                "start": 0,
+                                "duration": 1
+                            }
+                        ]
+                    },
+                    {
+                        "id": "logo",
+                        "type": "text",
+                        "content": "AI VISUALS",
+                        "position": {
+                            "x": 960,
+                            "y": 700
+                        },
+                        "style": {
+                            "font_size": 28,
+                            "color": "#00d9ff"
+                        },
+                        "animations": [
+                            {
+                                "type": "glow",
+                                "start": 1,
+                                "duration": 2
+                            }
+                        ]
+                    }
+                ],
+                "transition_out": {
+                    "type": "fade_to_black",
+                    "duration": 1
+                }
+            }
+        ]
+    }
+}

@@ -64,7 +64,7 @@ async def process_user_message(message: str, session_id: str = "default") -> str
     # We always keep system_prompt and the new user message
     while len(history) > 0:
         msgs = [system_msg] + history + [user_msg]
-        if count_tokens(msgs, model) <= 600:
+        if count_tokens(msgs, model) <= 200:
             break
         history.pop(0) # Remove oldest
     
