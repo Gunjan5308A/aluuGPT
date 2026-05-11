@@ -1,2 +1,0 @@
-PROMPT: explain derivative of X**2
-GENERATED CSV: Derivative of X**2, $\\frac{d}{dx}x^2=2x$, line, 0:0,1:2,2:4,3:6,4:8,5:10

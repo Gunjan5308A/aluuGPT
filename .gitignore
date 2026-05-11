@@ -11,3 +11,7 @@ venv
 *.mp4
 scripts/
 fallback_logs/
+.agents
+.codex
+data/
+logs/
