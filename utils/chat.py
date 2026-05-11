@@ -69,7 +69,6 @@ async def process_user_message(message: str, user_id: str) -> str:
             messages=msgs,
             temperature=0.2,
             max_tokens=1024,
-            repetition_penalty=1.3
         ).choices[0].message.content
     except Exception as e:
         return f"Error: {str(e)}"
