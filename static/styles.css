@@ -51,6 +51,96 @@ body {
     transition: var(--transition);
 }
 
+.auth-panel__title {
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    opacity: 0.8;
+}
+
+.auth-field {
+    width: 100%;
+    margin-bottom: 0.6rem;
+    padding: 0.7rem 0.8rem;
+    border-radius: 0.65rem;
+    border: 1px solid var(--border-color);
+    background: transparent;
+    color: var(--text-color);
+    outline: none;
+}
+
+.auth-field:focus {
+    border-color: var(--accent-color);
+}
+
+.auth-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+    margin-top: 0.25rem;
+}
+
+.auth-btn {
+    border: 1px solid var(--border-color);
+    background: transparent;
+    color: var(--text-color);
+    border-radius: 0.65rem;
+    padding: 0.65rem 0.75rem;
+    cursor: pointer;
+    font-size: 0.82rem;
+    font-weight: 600;
+}
+
+.auth-btn.primary {
+    background: var(--accent-color);
+    border-color: var(--accent-color);
+    color: white;
+}
+
+.auth-note {
+    margin-top: 0.75rem;
+    font-size: 0.72rem;
+    line-height: 1.4;
+    opacity: 0.65;
+}
+
+.auth-error {
+    min-height: 1rem;
+    margin-top: 0.6rem;
+    font-size: 0.8rem;
+    color: #f87171;
+}
+
+.account-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.account-status {
+    font-size: 0.85rem;
+    opacity: 0.75;
+}
+
+.auth-toggle-btn {
+    border: 1px solid var(--border-color);
+    background: transparent;
+    color: var(--text-color);
+    border-radius: 999px;
+    padding: 0.55rem 0.9rem;
+    cursor: pointer;
+    font-size: 0.82rem;
+    font-weight: 600;
+    transition: var(--transition);
+}
+
+.auth-toggle-btn:hover {
+    border-color: var(--accent-color);
+    color: var(--accent-color);
+}
+
 .new-chat-btn {
     background: transparent;
     border: 1px solid var(--border-color);
@@ -99,6 +189,15 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 1rem;
+}
+
+.input-container.is-locked {
+    opacity: 0.72;
+}
+
+.input-container.is-locked .input-box {
+    border-style: dashed;
 }
 
 .chat-messages {
@@ -167,6 +266,11 @@ textarea {
     max-height: 200px;
 }
 
+textarea:disabled {
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
 .controls {
     display: flex;
     justify-content: space-between;
@@ -208,6 +312,11 @@ textarea {
 
 .send-btn:hover {
     background-color: var(--accent-hover);
+}
+
+.send-btn:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
 }
 
 /* Loading States */
@@ -274,4 +383,86 @@ video {
 .message pre code {
   background: none;
   padding: 0;
+}
+
+.auth-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+}
+
+.auth-modal__backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.55);
+    backdrop-filter: blur(12px);
+}
+
+.auth-modal__dialog {
+    position: relative;
+    width: min(92vw, 420px);
+    border-radius: 1.5rem;
+    border: 1px solid var(--border-color);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.04), var(--sidebar-bg));
+    padding: 1.4rem;
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.35);
+    z-index: 1;
+}
+
+.auth-modal__close {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.9rem;
+    border: none;
+    background: transparent;
+    color: var(--text-color);
+    font-size: 1.6rem;
+    cursor: pointer;
+    line-height: 1;
+}
+
+.auth-modal__subtitle {
+    margin-bottom: 1rem;
+    font-size: 0.92rem;
+    line-height: 1.5;
+    opacity: 0.75;
+}
+
+[hidden] {
+    display: none !important;
+}
+
+@media (max-width: 900px) {
+    body {
+        flex-direction: column;
+        height: auto;
+        min-height: 100vh;
+        overflow: auto;
+    }
+
+    .sidebar {
+        width: 100%;
+        border-right: none;
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    .chat-header {
+        padding: 1rem;
+    }
+
+    .chat-messages {
+        padding: 1.5rem 1rem;
+    }
+
+    .input-container {
+        padding: 1rem;
+    }
+
+    .account-actions {
+        gap: 0.5rem;
+    }
 }

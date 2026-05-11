@@ -32,6 +32,10 @@
             <div class="model-info">
                 <strong>AluuGPT</strong> <span style="opacity: 0.5; font-size: 0.8rem; margin-left: 0.5rem;">Production Alpha</span>
             </div>
+            <div class="account-actions">
+                <span class="account-status" id="accountStatus" hidden></span>
+                <button class="auth-toggle-btn" id="authToggleBtn">Login</button>
+            </div>
         </header>
 
         <section class="chat-messages" id="chatMessages">
@@ -44,7 +48,7 @@
 
         <section class="input-container">
             <div class="input-box">
-                <textarea id="userInput" placeholder="Ask anything... (Use tokens for specific modes)" rows="1" oninput="autoResize(this)"></textarea>
+                <textarea id="userInput" placeholder="Log in to start chatting" rows="1" oninput="autoResize(this)"></textarea>
                 <div class="controls">
                     <div class="token-group">
                         <button class="token-btn" data-token="<|think|>" onclick="toggleToken(this)">Think</button>
@@ -61,6 +65,23 @@
             </p>
         </section>
     </main>
+
+    <div class="auth-modal" id="authModal" hidden>
+        <div class="auth-modal__backdrop" id="authModalBackdrop"></div>
+        <div class="auth-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="authModalTitle">
+            <button class="auth-modal__close" id="authModalClose" aria-label="Close login dialog">×</button>
+            <div class="auth-panel__title" id="authModalTitle">Account access</div>
+            <p class="auth-modal__subtitle">Log in to load your personal chat history, or create a username if you’re new.</p>
+            <input id="authUsername" class="auth-field" type="text" placeholder="Username" autocomplete="username">
+            <input id="authPassword" class="auth-field" type="password" placeholder="Password" autocomplete="current-password">
+            <div class="auth-actions">
+                <button class="auth-btn primary" id="loginBtn">Log in</button>
+                <button class="auth-btn" id="registerBtn">Create account</button>
+            </div>
+            <div class="auth-note">Passwords are hashed before storage. Sessions are stored as secure cookies.</div>
+            <div class="auth-error" id="authError" aria-live="polite"></div>
+        </div>
+    </div>
 
     <script src="/static/app.js"></script>
 </body>
