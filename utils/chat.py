@@ -57,7 +57,7 @@ async def process_user_message(message: str, user_id: str) -> str:
 
     while len(history) > 0:
         msgs = [system_msg] + history + [user_msg]
-        if count_tokens(msgs, model) <= 200:
+        if count_tokens(msgs, model) <= 400:
             break
         history.pop(0)
 
@@ -69,6 +69,7 @@ async def process_user_message(message: str, user_id: str) -> str:
             messages=msgs,
             temperature=0.2,
             max_tokens=1024,
+            repetition_penalty=1.3
         ).choices[0].message.content
     except Exception as e:
         return f"Error: {str(e)}"
